@@ -1,0 +1,66 @@
+%YAML1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+# http://www.biblioscape.com/rtf15_spec.htm
+file_extensions:
+  - rtf
+first_line_match: '^{\\rtf'
+scope: text.rtf # Note that scopes are currently set for best syntax highlighting, not for semantic accuracy
+variables:
+  hex: '[0-9a-fA-F]'
+contexts:
+  main:
+    - match: '({)(\\rtf)(\d?)'
+      captures:
+        1: punctuation.definition.group.begin.rtf support.function.rtf
+        2: support.function.rtf
+        3: entity.name.function.rtf
+      set: default
+    - match: '(?=.)' # RTF snippet
+      set: rtf_snippet
+  rtf_snippet:
+    - include: rtf
+    - match: '}'
+      scope: invalid.illegal.stray-bracket-end
+  rtf:
+    - match: '\\\\'
+      scope: constant.language.rtf literal.backslash.rtf
+    - match: '\\(?:\*|~|-|_|:|\|)'
+      scope: constant.language.rtf
+    - match: \\'{{hex}}{2}
+      scope: constant.language.rtf
+    - match: '(\\fldinst)\s+(\w+)\s+("[^"]*")'
+      captures:
+        1: keyword.control.flow.rtf
+        2: constant.language.rtf
+        3: string.quoted.double.literal.rtf
+    - match: '\\(?:\w(?!\d))*\w(-?\d*)'
+      captures:
+        0: keyword.control.flow.rtf
+        1: entity.name.function.rtf
+    - match: '\\'
+      scope: invalid.illegal.unescaped-backslash
+    - match: '{'
+      scope: punctuation.definition.group.begin.rtf support.function.rtf
+      push: inside_group
+  default:
+    - include: rtf
+    - match: '}'
+      scope: punctuation.definition.group.end.rtf support.function.rtf
+      push: nothing # stop highlighting after the end of document closing brace to clearly show where the final closing bracket is when there is additional unexpected content
+  inside_group:
+    - match: '}'
+      scope: punctuation.definition.group.end.rtf support.function.rtf
+      pop: true
+    - match: ';'
+      scope: keyword.control.flow.rtf constant.language.rtf
+    - include: default
+    - include: unexpected_eof
+  nothing:
+    - match: '\s+'
+      scope: whitespace
+    - match: '\S+'
+      scope: invalid.illegal.unexpected-content-at-end-of-document text.plain # anything other than whitespace after the closing brace that marks the end of the document will be ignored by RTF software, so mark it as invalid
+  unexpected_eof:
+    - match: '.(?=\Z)'
+      scope: invalid.illegal.missing-close-bracket # if the end of the document is reached and we are still in an open brace, then the document is missing a closing brace

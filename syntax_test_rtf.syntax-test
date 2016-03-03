@@ -1,0 +1,28 @@
+# SYNTAX TEST "rtf.sublime-syntax"
+{\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+# <- text.rtf punctuation.definition.group.begin.rtf support.function.rtf
+#     ^^^^^^^^^^ text.rtf keyword.control.flow.rtf
+#               ^ text.rtf keyword.control.flow.rtf entity.name.function.rtf
+#                ^ text.rtf punctuation.definition.group.begin.rtf support.function.rtf
+#                                              ^ text.rtf - support.function.rtf - punctuation.definition.group.begin.rtf - keyword.control.flow.rtf - entity.name.function.rtf - constant.language.rtf
+#                                                    ^ text.rtf keyword.control.flow.rtf constant.language.rtf
+#                                                     ^^ text.rtf punctuation.definition.group.end.rtf support.function.rtf
+{\colortbl ;\red0\green0\blue238;}
+{\intbl\cellx4000\cellx8000
+Heading 1\cell Heading 2\cell\row
+Item 1\cell {\field{\*\fldinst HYPERLINK "http://www.google.com/"}{\fldrslt\cf1\ul C:\\Temp\\Test.txt}}\cell\row
+#                              ^^^^^^^^^ text.rtf constant.language.rtf
+#                             ^ text.rtf - text.rtf constant.language.rtf
+#                                       ^ text.rtf - text.rtf constant.language.rtf - text.rtf string.quoted.double.literal.rtf
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^^ text.rtf string.quoted.double.literal.rtf
+#                                                                ^ text.rtf punctuation.definition.group.end.rtf support.function.rtf
+#                                                                                    ^^ text.rtf constant.language.rtf literal.backslash.rtf
+#                                                                                      ^^^^ text.rtf - constant.language.rtf literal.backslash.rtf keyword.control.flow.rtf
+#                                                                                                      ^^^^^^^^^ text.rtf keyword.control.flow.rtf
+Item 2\cell {\field{\*\fldinst HYPERLINK "http://www.google.com/"}{\fldrslt\cf1\ul .\\example.rtf}}\cell\row
+}
+More text here\par
+ \'abblah\'bb
+#^^^^ text.rtf constant.language.rtf
+#    ^^^^ text.rtf - constant.language.rtf
+}

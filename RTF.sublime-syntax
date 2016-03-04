@@ -14,7 +14,7 @@ contexts:
       captures:
         1: punctuation.definition.group.begin.rtf support.function.rtf
         2: support.function.rtf
-        3: entity.name.function.rtf
+        3: entity.other.inherited-class
       set: default
     - match: '(?=.)' # RTF snippet
       set: rtf_snippet
@@ -34,10 +34,14 @@ contexts:
         1: keyword.control.flow.rtf
         2: constant.language.rtf
         3: string.quoted.double.literal.rtf
+    - match: '(\\bkmkstart|\\bkmkend)\s+(\w+)'
+      captures:
+        1: variable.parameter.function.rtf
+        2: entity.name.function.rtf # bookmark name will show up in Goto Symbol
     - match: '\\(?:\w(?!\d))*\w(-?\d*)'
       captures:
         0: keyword.control.flow.rtf
-        1: entity.name.function.rtf
+        1: entity.other.inherited-class
     - match: '\\'
       scope: invalid.illegal.unescaped-backslash
     - match: '{'

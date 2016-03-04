@@ -42,7 +42,9 @@ contexts:
       captures:
         0: keyword.control.flow.rtf
         1: entity.other.inherited-class
-    - match: '\\'
+    - match: '\\$' # A carriage return (character value 13) or linefeed (character value 10) will be treated as a \par control word if the character is preceded by a backslash.
+      scope: invalid.deprecated.keyword.control.flow.rtf
+    - match: '\\(?!$)'
       scope: invalid.illegal.unescaped-backslash
     - match: '{'
       scope: punctuation.definition.group.begin.rtf support.function.rtf

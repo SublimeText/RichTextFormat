@@ -12,3 +12,7 @@ The recommended way to install the Sublime Text RTF syntax is via [Package Contr
 1. Wait for it to install.
 1. Re-open any open RTF files, or set their syntax to RTF manually.
 1. Enjoy!
+
+## Potential Future Improvements
+
+- integrate with the awesome BracketHighlighter plugin to ensure that parenthesis don't affect curly brace matching.

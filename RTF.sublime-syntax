@@ -26,7 +26,7 @@ contexts:
     - match: '\\\\'
       scope: constant.language.rtf literal.backslash.rtf
     - match: '\\(?:\*|~|-|_|:|\|)'
-      scope: constant.language.rtf
+      scope: constant.language.rtf # control symbol
     - match: \\'{{hex}}{2}
       scope: constant.language.rtf
     - match: '(\\fldinst)\s+(\w+)\s+("[^"]*")'
@@ -38,10 +38,10 @@ contexts:
       captures:
         1: variable.parameter.function.rtf
         2: entity.name.function.rtf # bookmark name will show up in Goto Symbol
-    - match: '\\(?:\w(?!\d))*\w(-?\d*)'
+    - match: '\\([a-z]+)(-?\d+)?(\s?)' # control words are lowercase and can have an optional numeric parameter, and, if followed by a space, that space becomes part of the control word
       captures:
         0: keyword.control.flow.rtf
-        1: entity.other.inherited-class
+        2: entity.other.inherited-class
     - match: '\\$' # A carriage return (character value 13) or linefeed (character value 10) will be treated as a \par control word if the character is preceded by a backslash.
       scope: invalid.deprecated.keyword.control.flow.rtf
     - match: '\\(?!$)'

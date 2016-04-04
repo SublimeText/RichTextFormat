@@ -37,7 +37,7 @@ contexts:
     - match: '(\\bkmkstart|\\bkmkend)\s+(\w+)'
       captures:
         1: variable.parameter.function.rtf
-        2: entity.name.function.rtf # bookmark name will show up in Goto Symbol # TODO: use a metadata file so that the scope makes more semantic sense - http://docs.sublimetext.info/en/latest/reference/symbols.html
+        2: entity.name.bookmark.rtf entity.name.function.rtf # bookmark name will show up in Goto Symbol
     - match: '\\([a-z]+)(-?\d+)?(\s?)' # control words are lowercase and can have an optional numeric parameter, and, if followed by a space, that space becomes part of the control word
       captures:
         0: keyword.control.flow.rtf

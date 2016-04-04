@@ -23,10 +23,10 @@ Item 2\cell {\field{\*\fldinst HYPERLINK "http://www.google.com/"}{\fldrslt\cf1\
 }
 {\*\bkmkstart bookmark_1234}More text here{\*\bkmkend bookmark_1234}\par
 #  ^^^^^^^^^^ variable.parameter.function.rtf
-#             ^^^^^^^^^^^^^ entity.name.function.rtf
+#             ^^^^^^^^^^^^^ entity.name.function.rtf entity.name.bookmark.rtf
 #                          ^^^^^^^^^^^^^^^^ text.rtf - variable.parameter.function.rtf entity.name.function.rtf
 #                                            ^^^^^^^^ variable.parameter.function.rtf
-#                                                     ^^^^^^^^^^^^^ entity.name.function.rtf
+#                                                     ^^^^^^^^^^^^^ entity.name.function.rtf entity.name.bookmark.rtf
  \'abblah\'bb
 #^^^^ text.rtf constant.language.rtf
 #    ^^^^ text.rtf - constant.language.rtf

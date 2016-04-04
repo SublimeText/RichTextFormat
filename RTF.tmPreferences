@@ -11,7 +11,7 @@
         <key>showInSymbolList</key>
         <integer>1</integer>
         <key>showInIndexedSymbolList</key>
-		<integer>0</integer>
+        <integer>0</integer>
     </dict>
 </dict>
 </plist>

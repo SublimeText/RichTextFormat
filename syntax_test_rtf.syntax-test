@@ -4,30 +4,50 @@
 #     ^^^^^^^^^^ text.rtf keyword.control.flow.rtf
 #               ^ text.rtf keyword.control.flow.rtf entity.other.inherited-class
 #                ^ text.rtf punctuation.definition.group.begin.rtf support.function.rtf
-#                                              ^ text.rtf - support.function.rtf - punctuation.definition.group.begin.rtf - keyword.control.flow.rtf - entity.name.function.rtf - constant.language.rtf
+#                                             ^^^^^^^ text.rtf - support.function.rtf - punctuation.definition.group.begin.rtf - keyword.control.flow.rtf - entity.name.function.rtf - constant.language.rtf
 #                                                    ^ text.rtf keyword.control.flow.rtf constant.language.rtf
 #                                                     ^^ text.rtf punctuation.definition.group.end.rtf support.function.rtf
 {\colortbl ;\red0\green0\blue238;}
 {\intbl\cellx4000\cellx8000
 Heading 1\cell Heading 2\cell\row
 Item 1\cell {\field{\*\fldinst HYPERLINK "http://www.google.com/"}{\fldrslt\cf1\ul C:\\Temp\\Test.txt}}\cell\row
+#                   ^^ text.rtf constant.language.rtf
+#                     ^^^^^^^^^ text.rtf keyword.control.flow.rtf - constant.language.rtf
 #                              ^^^^^^^^^ text.rtf constant.language.rtf
 #                             ^ text.rtf - text.rtf constant.language.rtf
 #                                       ^ text.rtf - text.rtf constant.language.rtf - text.rtf string.quoted.double.literal.rtf
 #                                        ^^^^^^^^^^^^^^^^^^^^^^^^ text.rtf string.quoted.double.literal.rtf
 #                                                                ^ text.rtf punctuation.definition.group.end.rtf support.function.rtf
-#                                                                                    ^^ text.rtf constant.language.rtf literal.backslash.rtf
-#                                                                                      ^^^^ text.rtf - constant.language.rtf literal.backslash.rtf keyword.control.flow.rtf
+#                                                                                    ^^ text.rtf constant.language.rtf meta.literal.backslash.rtf
+#                                                                                      ^^^^ text.rtf - constant.language.rtf meta.literal.backslash.rtf keyword.control.flow.rtf
 #                                                                                                      ^^^^^^^^^ text.rtf keyword.control.flow.rtf
 Item 2\cell {\field{\*\fldinst HYPERLINK "http://www.google.com/"}{\fldrslt\cf1\ul .\\example.rtf}}\cell\row
 }
 {\*\bkmkstart bookmark_1234}More text here{\*\bkmkend bookmark_1234}\par
 #  ^^^^^^^^^^ variable.parameter.function.rtf
-#             ^^^^^^^^^^^^^ entity.name.function.rtf entity.name.bookmark.rtf
+#             ^^^^^^^^^^^^^ entity.name.function.rtf
+#             ^^^^^^^^^^^^^ entity.name.bookmark.rtf
 #                          ^^^^^^^^^^^^^^^^ text.rtf - variable.parameter.function.rtf entity.name.function.rtf
 #                                            ^^^^^^^^ variable.parameter.function.rtf
-#                                                     ^^^^^^^^^^^^^ entity.name.function.rtf entity.name.bookmark.rtf
+#                                                     ^^^^^^^^^^^^^ entity.name.function.rtf
+#                                                     ^^^^^^^^^^^^^ entity.name.bookmark.rtf
  \'abblah\'bb
 #^^^^ text.rtf constant.language.rtf
 #    ^^^^ text.rtf - constant.language.rtf
+\
+#<- text.rtf invalid.deprecated.keyword.control.flow.rtf
+ \}
+#<- text.rtf - invalid.deprecated.keyword.control.flow.rtf
+#^^ text.rtf constant.language.rtf meta.literal.rtf
+
 }
+#<- text.rtf punctuation.definition.group.end.rtf support.function.rtf
+
+text here, after the document is closed, should be marked as invalid
+but in the test file, because the first line is the test marker, and
+it is not ignored when the tests are performed, means that it sees
+this document as an RTF snippet.
+
+However, it does mean that the stray bracket end will be highlighted:
+ }
+#^ invalid.illegal.stray-bracket-end.rtf

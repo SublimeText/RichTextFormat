@@ -6,35 +6,37 @@ file_extensions:
   - rtf
 first_line_match: '^{\\rtf'
 scope: text.rtf # Note that scopes are currently set for best syntax highlighting, not for semantic accuracy
-variables:
-  hex: '[0-9a-fA-F]'
 contexts:
   main:
     - match: '({)(\\rtf)(\d?)'
       captures:
-        1: punctuation.definition.group.begin.rtf support.function.rtf
+        1: punctuation.definition.document.begin.rtf support.function.rtf
         2: support.function.rtf
         3: entity.other.inherited-class
-      set: default
+      set: root
     - match: '(?=.)' # RTF snippet
       set: rtf_snippet
+
   rtf_snippet:
     - include: rtf
     - match: '}'
-      scope: invalid.illegal.stray-bracket-end
+      scope: invalid.illegal.stray-bracket-end.rtf
+
   rtf:
     - match: '\\\\'
-      scope: constant.language.rtf literal.backslash.rtf
+      scope: constant.language.rtf meta.literal.backslash.rtf
+    - match: '\\\}'
+      scope: constant.language.rtf meta.literal.rtf
     - match: '\\(?:\*|~|-|_|:|\|)'
       scope: constant.language.rtf # control symbol
-    - match: \\'{{hex}}{2}
+    - match: \\'\h{2}
       scope: constant.language.rtf
-    - match: '(\\fldinst)\s+(\w+)\s+("[^"]*")'
+    - match: '(\\fldinst\s)\s*(\w+)\s+("[^"]*")'
       captures:
         1: keyword.control.flow.rtf
         2: constant.language.rtf
         3: string.quoted.double.literal.rtf
-    - match: '(\\bkmkstart|\\bkmkend)\s+(\w+)'
+    - match: '(\\bkmk(?:start|end)\s)\s*(\w+)'
       captures:
         1: variable.parameter.function.rtf
         2: entity.name.bookmark.rtf entity.name.function.rtf # bookmark name will show up in Goto Symbol
@@ -42,31 +44,30 @@ contexts:
       captures:
         0: keyword.control.flow.rtf
         2: entity.other.inherited-class
-    - match: '\\$' # A carriage return (character value 13) or linefeed (character value 10) will be treated as a \par control word if the character is preceded by a backslash.
+    - match: '\\$\n?' # A carriage return (character value 13) or linefeed (character value 10) will be treated as a \par control word if the character is preceded by a backslash.
       scope: invalid.deprecated.keyword.control.flow.rtf
-    - match: '\\(?!$)'
-      scope: invalid.illegal.unescaped-backslash
+    - match: '\\' #'\\(?!$|\})'
+      scope: invalid.illegal.unescaped-backslash.rtf
     - match: '{'
       scope: punctuation.definition.group.begin.rtf support.function.rtf
       push: inside_group
-  default:
-    - include: rtf
+
+  root:
+    - meta_content_scope: meta.document.body.rtf
     - match: '}'
-      scope: punctuation.definition.group.end.rtf support.function.rtf
-      push: nothing # stop highlighting after the end of document closing brace to clearly show where the final closing bracket is when there is additional unexpected content
+      scope: punctuation.definition.document.end.rtf support.function.rtf
+      set: expect_eof # stop highlighting after the end of document closing brace to clearly show where the final closing bracket is when there is additional unexpected content
+    - include: rtf
+
   inside_group:
     - match: '}'
       scope: punctuation.definition.group.end.rtf support.function.rtf
       pop: true
     - match: ';'
       scope: keyword.control.flow.rtf constant.language.rtf
-    - include: default
-    - include: unexpected_eof
-  nothing:
-    - match: '\s+'
-      scope: whitespace
-    - match: '\S+'
-      scope: invalid.illegal.unexpected-content-at-end-of-document text.plain # anything other than whitespace after the closing brace that marks the end of the document will be ignored by RTF software, so mark it as invalid
-  unexpected_eof:
-    - match: '.(?=\Z)'
-      scope: invalid.illegal.missing-close-bracket # if the end of the document is reached and we are still in an open brace, then the document is missing a closing brace
+    - include: rtf
+
+  expect_eof:
+    - match: '\S'
+      push:
+        - meta_scope: invalid.illegal.unexpected-content-at-end-of-document.rtf text.plain # anything other than whitespace after the closing brace that marks the end of the document will be ignored by RTF software, so mark it as invalid

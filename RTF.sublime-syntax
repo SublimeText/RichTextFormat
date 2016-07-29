@@ -10,9 +10,9 @@ contexts:
   main:
     - match: '({)(\\rtf)(\d?)'
       captures:
-        1: punctuation.definition.document.begin.rtf support.function.rtf
+        1: punctuation.section.document.begin.rtf
         2: support.function.rtf
-        3: entity.other.inherited-class
+        3: constant.numeric.rtf
       set: root
     - match: '(?=.)' # RTF snippet
       set: rtf_snippet
@@ -24,47 +24,47 @@ contexts:
 
   rtf:
     - match: '\\\\'
-      scope: constant.language.rtf meta.literal.backslash.rtf
+      scope: constant.character.escape.rtf
     - match: '\\\}'
-      scope: constant.language.rtf meta.literal.rtf
+      scope: constant.character.escape.rtf
     - match: '\\(?:\*|~|-|_|:|\|)'
       scope: constant.language.rtf # control symbol
     - match: \\'\h{2}
-      scope: constant.language.rtf
+      scope: constant.character.entity.rtf
     - match: '(\\fldinst\s)\s*(\w+)\s+("[^"]*")'
       captures:
-        1: keyword.control.flow.rtf
-        2: constant.language.rtf
-        3: string.quoted.double.literal.rtf
+        1: keyword.control.rtf
+        2: support.constant.rtf
+        3: string.quoted.double.rtf
     - match: '(\\bkmk(?:start|end)\s)\s*(\w+)'
       captures:
-        1: variable.parameter.function.rtf
-        2: entity.name.bookmark.rtf entity.name.function.rtf # bookmark name will show up in Goto Symbol
+        1: storage.type.rtf
+        2: entity.name.bookmark.rtf meta.toc-list.bookmark.rtf # bookmark name will show up in Goto Symbol
     - match: '\\([a-z]+)(-?\d+)?(\s?)' # control words are lowercase and can have an optional numeric parameter, and, if followed by a space, that space becomes part of the control word
       captures:
-        0: keyword.control.flow.rtf
-        2: entity.other.inherited-class
+        0: keyword.control.rtf
+        2: constant.numeric.rtf
     - match: '\\$\n?' # A carriage return (character value 13) or linefeed (character value 10) will be treated as a \par control word if the character is preceded by a backslash.
-      scope: invalid.deprecated.keyword.control.flow.rtf
+      scope: invalid.deprecated.keyword.control.rtf
     - match: '\\' #'\\(?!$|\})'
       scope: invalid.illegal.unescaped-backslash.rtf
     - match: '{'
-      scope: punctuation.definition.group.begin.rtf support.function.rtf
+      scope: punctuation.section.group.begin.rtf
       push: inside_group
 
   root:
     - meta_content_scope: meta.document.body.rtf
     - match: '}'
-      scope: punctuation.definition.document.end.rtf support.function.rtf
+      scope: punctuation.section.document.end.rtf
       set: expect_eof # stop highlighting after the end of document closing brace to clearly show where the final closing bracket is when there is additional unexpected content
     - include: rtf
 
   inside_group:
     - match: '}'
-      scope: punctuation.definition.group.end.rtf support.function.rtf
+      scope: punctuation.section.group.end.rtf
       pop: true
     - match: ';'
-      scope: keyword.control.flow.rtf constant.language.rtf
+      scope: punctuation.separator.rtf
     - include: rtf
 
   expect_eof:

@@ -1,47 +1,56 @@
 # SYNTAX TEST "rtf.sublime-syntax"
 {\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
-# <- text.rtf punctuation.definition.group.begin.rtf support.function.rtf
-#     ^^^^^^^^^^ text.rtf keyword.control.flow.rtf
-#               ^ text.rtf keyword.control.flow.rtf entity.other.inherited-class
-#                ^ text.rtf punctuation.definition.group.begin.rtf support.function.rtf
-#                                             ^^^^^^^ text.rtf - support.function.rtf - punctuation.definition.group.begin.rtf - keyword.control.flow.rtf - entity.name.function.rtf - constant.language.rtf
-#                                                    ^ text.rtf keyword.control.flow.rtf constant.language.rtf
-#                                                     ^^ text.rtf punctuation.definition.group.end.rtf support.function.rtf
+# <- text.rtf punctuation.section.group.begin.rtf
+#    ^ constant.numeric.rtf
+#     ^^^^^^^^^^^ keyword.control.rtf
+#               ^ constant.numeric.rtf
+#                ^ punctuation.section.group.begin.rtf
+#                                             ^^^^^^^ - punctuation - constant - keyword
+#                                                    ^ punctuation.separator.rtf
+#                                                     ^^ punctuation.section.group.end.rtf
 {\colortbl ;\red0\green0\blue238;}
+#^^^^^^^^^^ keyword.control.rtf
+#          ^ punctuation.separator.rtf
+#           ^^^^^^^^^^^^^^^^^^^^ keyword.control.rtf
+#               ^ constant.numeric.rtf
+#                            ^^^ constant.numeric.rtf
+#                               ^ punctuation.separator.rtf
 {\intbl\cellx4000\cellx8000
+#                      ^^^^ constant.numeric.rtf
 Heading 1\cell Heading 2\cell\row
+#       ^ - constant.numeric.rtf
 Item 1\cell {\field{\*\fldinst HYPERLINK "http://www.google.com/"}{\fldrslt\cf1\ul C:\\Temp\\Test.txt}}\cell\row
-#                   ^^ text.rtf constant.language.rtf
-#                     ^^^^^^^^^ text.rtf keyword.control.flow.rtf - constant.language.rtf
-#                              ^^^^^^^^^ text.rtf constant.language.rtf
-#                             ^ text.rtf - text.rtf constant.language.rtf
-#                                       ^ text.rtf - text.rtf constant.language.rtf - text.rtf string.quoted.double.literal.rtf
-#                                        ^^^^^^^^^^^^^^^^^^^^^^^^ text.rtf string.quoted.double.literal.rtf
-#                                                                ^ text.rtf punctuation.definition.group.end.rtf support.function.rtf
-#                                                                                    ^^ text.rtf constant.language.rtf meta.literal.backslash.rtf
-#                                                                                      ^^^^ text.rtf - constant.language.rtf meta.literal.backslash.rtf keyword.control.flow.rtf
-#                                                                                                      ^^^^^^^^^ text.rtf keyword.control.flow.rtf
+#                   ^^ constant.language.rtf
+#                     ^^^^^^^^^ keyword.control.rtf - constant.language.rtf
+#                              ^^^^^^^^^ support.constant.rtf - keyword
+#                                       ^ - support - constant - string
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.rtf
+#                                                                ^ punctuation.section.group.end.rtf
+#                                                                                    ^^ constant.character.escape.rtf
+#                                                                                      ^^^^ - constant
+#                                                                                                      ^^^^^^^^^ keyword.control.rtf
 Item 2\cell {\field{\*\fldinst HYPERLINK "http://www.google.com/"}{\fldrslt\cf1\ul .\\example.rtf}}\cell\row
 }
 {\*\bkmkstart bookmark_1234}More text here{\*\bkmkend bookmark_1234}\par
-#  ^^^^^^^^^^ variable.parameter.function.rtf
-#             ^^^^^^^^^^^^^ entity.name.function.rtf
-#             ^^^^^^^^^^^^^ entity.name.bookmark.rtf
-#                          ^^^^^^^^^^^^^^^^ text.rtf - variable.parameter.function.rtf entity.name.function.rtf
-#                                            ^^^^^^^^ variable.parameter.function.rtf
-#                                                     ^^^^^^^^^^^^^ entity.name.function.rtf
-#                                                     ^^^^^^^^^^^^^ entity.name.bookmark.rtf
+#  ^^^^^^^^^^ storage.type.rtf
+#             ^^^^^^^^^^^^^ meta.toc-list.bookmark.rtf
+#                          ^^^^^^^^^^^^^^^^ - storage.type.rtf - meta.toc-list.bookmark.rtf
+#                                            ^^^^^^^^ storage.type.rtf
+#                                                     ^^^^^^^^^^^^^ meta.toc-list.bookmark.rtf
+#                                                                  ^ punctuation.section.group.end.rtf - meta.toc-list
+#                                                                   ^^^^^ keyword.control.rtf
  \'abblah\'bb
-#^^^^ text.rtf constant.language.rtf
-#    ^^^^ text.rtf - constant.language.rtf
-\
-#<- text.rtf invalid.deprecated.keyword.control.flow.rtf
+#^^^^ constant.character.entity.rtf
+#    ^^^^ - constant.character.entity.rtf
+#        ^^^^ constant.character.entity.rtf
+slash at end of line\
+#                   ^^ invalid.deprecated.keyword.control.rtf
  \}
-#<- text.rtf - invalid.deprecated.keyword.control.flow.rtf
-#^^ text.rtf constant.language.rtf meta.literal.rtf
+#<- - invalid.deprecated.keyword.control.rtf
+#^^ constant.character.escape.rtf - punctuation.section.group.end.rtf
 
 }
-#<- text.rtf punctuation.definition.group.end.rtf support.function.rtf
+#<- punctuation.section.group.end.rtf
 
 text here, after the document is closed, should be marked as invalid
 but in the test file, because the first line is the test marker, and
